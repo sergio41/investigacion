@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <simbolos.h>
 #include "parser.h"
+#include "logicaVentana.cpp"
 #include "almacenador.h"
 #include <QStandardItemModel>
 #include <QStandardItem>
@@ -13,6 +14,8 @@ QStandardItemModel *model ;
 #include <iostream>
 using namespace std;
 
+
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -20,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     model = new QStandardItemModel(this);
     ui->listViewSet->setModel(model);
+    iniciarDepurador();
 }
 
 MainWindow::~MainWindow()
@@ -36,6 +40,7 @@ void MainWindow::on_lineEdit_textChanged()
 
 void MainWindow::on_pBAnadir_clicked()
 {
+
     parser aux = parser();
     if (aux.comprobarParser(ui->lineEdit->text())) {
         QStandardItem* Items = new QStandardItem(ui->lineEdit->text());
@@ -43,9 +48,8 @@ void MainWindow::on_pBAnadir_clicked()
         almacenador aux1 = almacenador();
         LBinaryTree arbol = aux1.almacenar(ui->lineEdit->text());
         if(arbol.getFirst()->GetChar()!=""){
-          //arbol.getFirst().imprimirNodo(this);
-          QMessageBox::warning(this, "Warning:", arbol.getFirst()->GetChar(), QMessageBox::Ok);
-          //cout << m_Char.toUtf8().constData() << endl;
+          depurador->Anadir(arbol.getFirst()->GetChar());
+          //QMessageBox::warning(this, "Warning:", arbol.getFirst()->GetChar(), QMessageBox::Ok);
           if(arbol.getFirst()->GetLeftChild()!=NULL){
               imprimirNodo(arbol.getFirst()->GetLeftChild());
           }
@@ -55,9 +59,8 @@ void MainWindow::on_pBAnadir_clicked()
         }
         LBinaryTree arbol2= aux1.nnf(arbol);
         if(arbol2.getFirst()->GetChar()!=""){
-          //arbol.getFirst().imprimirNodo(this);
-          QMessageBox::warning(this, "Warning:", arbol2.getFirst()->GetChar(), QMessageBox::Ok);
-          //cout << m_Char.toUtf8().constData() << endl;
+          depurador->Anadir(arbol2.getFirst()->GetChar());
+          //QMessageBox::warning(this, "Warning:", arbol2.getFirst()->GetChar(), QMessageBox::Ok);
           if(arbol2.getFirst()->GetLeftChild()!=NULL){
               imprimirNodo(arbol2.getFirst()->GetLeftChild());
           }
@@ -67,9 +70,8 @@ void MainWindow::on_pBAnadir_clicked()
         }
         LBinaryTree arbol3= aux1.dtnf(arbol2);
         if(arbol3.getFirst()->GetChar()!=""){
-          //arbol.getFirst().imprimirNodo(this);
-          QMessageBox::warning(this, "Warning:", arbol3.getFirst()->GetChar(), QMessageBox::Ok);
-          //cout << m_Char.toUtf8().constData() << endl;
+          depurador->Anadir(arbol3.getFirst()->GetChar());
+          //QMessageBox::warning(this, "Warning:", arbol3.getFirst()->GetChar(), QMessageBox::Ok);
           if(arbol3.getFirst()->GetLeftChild()!=NULL){
               imprimirNodo(arbol3.getFirst()->GetLeftChild());
           }
@@ -106,8 +108,8 @@ void MainWindow::on_pBDeleteSET_clicked()
 }
 
 void MainWindow::imprimirNodo(BinaryTreeNode *actual){
-    QMessageBox::warning(this, "Warning:", actual->GetChar(), QMessageBox::Ok);
-    //cout << m_Char.toUtf8().constData() << endl;
+    //QMessageBox::warning(this, "Warning:", actual->GetChar(), QMessageBox::Ok);
+    depurador->Anadir(actual->GetChar());
     if(actual->GetLeftChild()!=NULL){
         imprimirNodo(actual->GetLeftChild());
     }

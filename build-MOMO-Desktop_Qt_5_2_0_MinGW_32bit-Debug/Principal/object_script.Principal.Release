@@ -1,0 +1,13 @@
+INPUT(
+./release\main.o
+./release\mainwindow.o
+./release\simbolos.o
+./release\parser.o
+./release\almacenador.o
+./release\binarytreenode.o
+./release\binarytree.o
+./release\almacen.o
+./release\ventana.o
+./release\moc_mainwindow.o
+./release\moc_ventana.o
+);

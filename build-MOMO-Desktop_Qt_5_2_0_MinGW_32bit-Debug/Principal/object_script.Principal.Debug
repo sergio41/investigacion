@@ -1,0 +1,13 @@
+INPUT(
+./debug\main.o
+./debug\mainwindow.o
+./debug\simbolos.o
+./debug\parser.o
+./debug\almacenador.o
+./debug\binarytreenode.o
+./debug\binarytree.o
+./debug\almacen.o
+./debug\ventana.o
+./debug\moc_mainwindow.o
+./debug\moc_ventana.o
+);

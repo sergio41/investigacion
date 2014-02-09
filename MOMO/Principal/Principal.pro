@@ -20,7 +20,9 @@ SOURCES += main.cpp\
     almacenador.cpp \
     binarytreenode.cpp \
     binarytree.cpp \
-    almacen.cpp
+    almacen.cpp \
+    ventana.cpp \
+    logicaVentana.cpp
 
 HEADERS  += mainwindow.h \
     simbolos.h \
@@ -28,6 +30,9 @@ HEADERS  += mainwindow.h \
     almacenador.h \
     binarytreenode.h \
     binarytree.h \
-    almacen.h
+    almacen.h \
+    ventana.h \
+    logicaVentana.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    ventana.ui

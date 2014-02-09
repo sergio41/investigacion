@@ -18,6 +18,9 @@
     <normaloff>../../Foto logo.jpg</normaloff>../../Foto logo.jpg</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
    <widget class="QLineEdit" name="lineEdit">
     <property name="geometry">
      <rect>
@@ -164,7 +167,6 @@ p, li { white-space: pre-wrap; }
     <bool>false</bool>
    </attribute>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
   <action name="actionOpen">
    <property name="text">
     <string>Open</string>
