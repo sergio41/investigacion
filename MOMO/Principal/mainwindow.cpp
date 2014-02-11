@@ -12,7 +12,7 @@
 #include <QFileDialog>
 #include <QXmlStreamWriter>
 
-QStandardItemModel *model ;
+QStandardItemModel *model;
 
 #include <iostream>
 using namespace std;
