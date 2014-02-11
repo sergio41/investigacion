@@ -15,6 +15,9 @@ public:
     explicit Ventana(QWidget *parent = 0);
     ~Ventana();
     void Anadir(QString texto);
+    void setEstado(bool estado);
+    bool getEstado();
+    void Vaciar();
 
 private:
     Ui::Ventana *ui;

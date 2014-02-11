@@ -13,6 +13,8 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QGridLayout>
+#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
@@ -33,17 +35,21 @@ public:
     QAction *actionOpen;
     QAction *actionSave;
     QAction *actionExit;
+    QAction *actionLog;
     QWidget *centralWidget;
-    QLineEdit *lineEdit;
+    QGridLayout *gridLayout_2;
     QListView *listViewSet;
-    QListView *listView_2;
-    QPushButton *pBAnadir;
-    QPushButton *pBClearSET;
-    QTextBrowser *textBrowser;
     QPushButton *pBDeleteSET;
+    QPushButton *pBClearSET;
+    QListView *listView_2;
+    QHBoxLayout *horizontalLayout;
     QLabel *label;
+    QLineEdit *lineEdit;
+    QPushButton *pBAnadir;
+    QTextBrowser *textBrowser;
     QMenuBar *menuBar;
     QMenu *menuFile;
+    QMenu *menuOpciones;
     QToolBar *mainToolBar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -56,56 +62,97 @@ public:
         MainWindow->setWindowIcon(icon);
         actionOpen = new QAction(MainWindow);
         actionOpen->setObjectName(QStringLiteral("actionOpen"));
+        actionOpen->setCheckable(false);
         actionSave = new QAction(MainWindow);
         actionSave->setObjectName(QStringLiteral("actionSave"));
         actionExit = new QAction(MainWindow);
         actionExit->setObjectName(QStringLiteral("actionExit"));
+        actionLog = new QAction(MainWindow);
+        actionLog->setObjectName(QStringLiteral("actionLog"));
+        actionLog->setCheckable(true);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         centralWidget->setLayoutDirection(Qt::LeftToRight);
-        lineEdit = new QLineEdit(centralWidget);
-        lineEdit->setObjectName(QStringLiteral("lineEdit"));
-        lineEdit->setGeometry(QRect(100, 330, 201, 20));
+        gridLayout_2 = new QGridLayout(centralWidget);
+        gridLayout_2->setSpacing(6);
+        gridLayout_2->setContentsMargins(11, 11, 11, 11);
+        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
         listViewSet = new QListView(centralWidget);
         listViewSet->setObjectName(QStringLiteral("listViewSet"));
-        listViewSet->setGeometry(QRect(490, 50, 201, 331));
         listViewSet->setEditTriggers(QAbstractItemView::NoEditTriggers);
-        listView_2 = new QListView(centralWidget);
-        listView_2->setObjectName(QStringLiteral("listView_2"));
-        listView_2->setGeometry(QRect(720, 50, 201, 331));
-        pBAnadir = new QPushButton(centralWidget);
-        pBAnadir->setObjectName(QStringLiteral("pBAnadir"));
-        pBAnadir->setGeometry(QRect(320, 330, 75, 23));
-        pBClearSET = new QPushButton(centralWidget);
-        pBClearSET->setObjectName(QStringLiteral("pBClearSET"));
-        pBClearSET->setGeometry(QRect(540, 400, 75, 23));
-        textBrowser = new QTextBrowser(centralWidget);
-        textBrowser->setObjectName(QStringLiteral("textBrowser"));
-        textBrowser->setGeometry(QRect(30, 20, 271, 251));
+
+        gridLayout_2->addWidget(listViewSet, 1, 3, 3, 1);
+
         pBDeleteSET = new QPushButton(centralWidget);
         pBDeleteSET->setObjectName(QStringLiteral("pBDeleteSET"));
-        pBDeleteSET->setGeometry(QRect(510, 20, 151, 23));
+
+        gridLayout_2->addWidget(pBDeleteSET, 0, 3, 1, 1);
+
+        pBClearSET = new QPushButton(centralWidget);
+        pBClearSET->setObjectName(QStringLiteral("pBClearSET"));
+
+        gridLayout_2->addWidget(pBClearSET, 4, 3, 1, 1);
+
+        listView_2 = new QListView(centralWidget);
+        listView_2->setObjectName(QStringLiteral("listView_2"));
+
+        gridLayout_2->addWidget(listView_2, 1, 4, 3, 1);
+
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setSpacing(6);
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         label = new QLabel(centralWidget);
         label->setObjectName(QStringLiteral("label"));
-        label->setGeometry(QRect(40, 330, 46, 13));
+        QFont font;
+        font.setFamily(QStringLiteral("Arial Black"));
+        font.setPointSize(12);
+        font.setBold(true);
+        font.setWeight(75);
+        label->setFont(font);
+
+        horizontalLayout->addWidget(label);
+
+        lineEdit = new QLineEdit(centralWidget);
+        lineEdit->setObjectName(QStringLiteral("lineEdit"));
+
+        horizontalLayout->addWidget(lineEdit);
+
+        pBAnadir = new QPushButton(centralWidget);
+        pBAnadir->setObjectName(QStringLiteral("pBAnadir"));
+
+        horizontalLayout->addWidget(pBAnadir);
+
+
+        gridLayout_2->addLayout(horizontalLayout, 3, 0, 1, 1);
+
+        textBrowser = new QTextBrowser(centralWidget);
+        textBrowser->setObjectName(QStringLiteral("textBrowser"));
+
+        gridLayout_2->addWidget(textBrowser, 0, 0, 3, 2);
+
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
         menuBar->setGeometry(QRect(0, 0, 968, 21));
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
+        menuOpciones = new QMenu(menuBar);
+        menuOpciones->setObjectName(QStringLiteral("menuOpciones"));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
         MainWindow->addToolBar(Qt::TopToolBarArea, mainToolBar);
 
         menuBar->addAction(menuFile->menuAction());
+        menuBar->addAction(menuOpciones->menuAction());
         menuFile->addAction(actionOpen);
         menuFile->addAction(actionSave);
         menuFile->addSeparator();
         menuFile->addAction(actionExit);
+        menuOpciones->addAction(actionLog);
 
         retranslateUi(MainWindow);
+        QObject::connect(actionExit, SIGNAL(triggered()), MainWindow, SLOT(close()));
 
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi
@@ -116,8 +163,11 @@ public:
         actionOpen->setText(QApplication::translate("MainWindow", "Open", 0));
         actionSave->setText(QApplication::translate("MainWindow", "Save", 0));
         actionExit->setText(QApplication::translate("MainWindow", "Exit", 0));
-        pBAnadir->setText(QApplication::translate("MainWindow", "A\303\261adir", 0));
+        actionLog->setText(QApplication::translate("MainWindow", "Log", 0));
+        pBDeleteSET->setText(QApplication::translate("MainWindow", "DELETE SELECTED", 0));
         pBClearSET->setText(QApplication::translate("MainWindow", "Clear SET", 0));
+        label->setText(QApplication::translate("MainWindow", "Formula", 0));
+        pBAnadir->setText(QApplication::translate("MainWindow", "A\303\261adir", 0));
         textBrowser->setHtml(QApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
@@ -141,9 +191,8 @@ public:
                         "gin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt; color:#000000;\">|	\342\210\250	Or</span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt; color:#000000;\">R	R	Release</span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt; color:#000000;\">U	U 	Until</span></p></body></html>", 0));
-        pBDeleteSET->setText(QApplication::translate("MainWindow", "DELETE SELECTED", 0));
-        label->setText(QApplication::translate("MainWindow", "Formula", 0));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", 0));
+        menuOpciones->setTitle(QApplication::translate("MainWindow", "Opciones", 0));
     } // retranslateUi
 
 };

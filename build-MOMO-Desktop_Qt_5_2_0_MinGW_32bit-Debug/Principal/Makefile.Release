@@ -629,6 +629,12 @@ release/mainwindow.o: ../../MOMO/Principal/mainwindow.cpp ../../MOMO/Principal/m
 		../../../../../../../Qt/Qt5.2.0/5.2.0/mingw48_32/include/QtGui/qinputmethod.h \
 		../../../../../../../Qt/Qt5.2.0/5.2.0/mingw48_32/include/QtWidgets/QButtonGroup \
 		../../../../../../../Qt/Qt5.2.0/5.2.0/mingw48_32/include/QtWidgets/qbuttongroup.h \
+		../../../../../../../Qt/Qt5.2.0/5.2.0/mingw48_32/include/QtWidgets/QGridLayout \
+		../../../../../../../Qt/Qt5.2.0/5.2.0/mingw48_32/include/QtWidgets/qgridlayout.h \
+		../../../../../../../Qt/Qt5.2.0/5.2.0/mingw48_32/include/QtWidgets/qlayout.h \
+		../../../../../../../Qt/Qt5.2.0/5.2.0/mingw48_32/include/QtWidgets/qlayoutitem.h \
+		../../../../../../../Qt/Qt5.2.0/5.2.0/mingw48_32/include/QtWidgets/qboxlayout.h \
+		../../../../../../../Qt/Qt5.2.0/5.2.0/mingw48_32/include/QtWidgets/QHBoxLayout \
 		../../../../../../../Qt/Qt5.2.0/5.2.0/mingw48_32/include/QtWidgets/QHeaderView \
 		../../../../../../../Qt/Qt5.2.0/5.2.0/mingw48_32/include/QtWidgets/qheaderview.h \
 		../../../../../../../Qt/Qt5.2.0/5.2.0/mingw48_32/include/QtWidgets/qabstractitemview.h \
@@ -1269,7 +1275,9 @@ release/ventana.o: ../../MOMO/Principal/ventana.cpp ../../MOMO/Principal/ventana
 		../../../../../../../Qt/Qt5.2.0/5.2.0/mingw48_32/include/QtGui/qtextcursor.h \
 		../../../../../../../Qt/Qt5.2.0/5.2.0/mingw48_32/include/QtGui/qtextformat.h \
 		../../../../../../../Qt/Qt5.2.0/5.2.0/mingw48_32/include/QtGui/qpen.h \
-		../../../../../../../Qt/Qt5.2.0/5.2.0/mingw48_32/include/QtWidgets/QWidget
+		../../../../../../../Qt/Qt5.2.0/5.2.0/mingw48_32/include/QtWidgets/QWidget \
+		../../../../../../../Qt/Qt5.2.0/5.2.0/mingw48_32/include/QtCore/QDateTime \
+		../../../../../../../Qt/Qt5.2.0/5.2.0/mingw48_32/include/QtCore/qdatetime.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\ventana.o ..\..\MOMO\Principal\ventana.cpp
 
 release/moc_mainwindow.o: release/moc_mainwindow.cpp 

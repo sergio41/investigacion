@@ -14,8 +14,6 @@ QStandardItemModel *model ;
 #include <iostream>
 using namespace std;
 
-
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -23,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     model = new QStandardItemModel(this);
     ui->listViewSet->setModel(model);
-    iniciarDepurador();
+
 }
 
 MainWindow::~MainWindow()
@@ -40,7 +38,7 @@ void MainWindow::on_lineEdit_textChanged()
 
 void MainWindow::on_pBAnadir_clicked()
 {
-
+    QString retorno;
     parser aux = parser();
     if (aux.comprobarParser(ui->lineEdit->text())) {
         QStandardItem* Items = new QStandardItem(ui->lineEdit->text());
@@ -48,36 +46,41 @@ void MainWindow::on_pBAnadir_clicked()
         almacenador aux1 = almacenador();
         LBinaryTree arbol = aux1.almacenar(ui->lineEdit->text());
         if(arbol.getFirst()->GetChar()!=""){
-          depurador->Anadir(arbol.getFirst()->GetChar());
-          //QMessageBox::warning(this, "Warning:", arbol.getFirst()->GetChar(), QMessageBox::Ok);
+          anadirADepurador(arbol.getFirst()->GetChar());
+          retorno = arbol.getFirst()->GetChar();
           if(arbol.getFirst()->GetLeftChild()!=NULL){
-              imprimirNodo(arbol.getFirst()->GetLeftChild());
+              retorno = imprimirNodo(arbol.getFirst()->GetLeftChild()) + retorno;
           }
           if(arbol.getFirst()->GetRightChild()!=NULL){
-              imprimirNodo(arbol.getFirst()->GetRightChild());
+              retorno = retorno + imprimirNodo(arbol.getFirst()->GetRightChild());
           }
+          anadirADepurador(retorno);
         }
         LBinaryTree arbol2= aux1.nnf(arbol);
         if(arbol2.getFirst()->GetChar()!=""){
-          depurador->Anadir(arbol2.getFirst()->GetChar());
+          anadirADepurador(arbol2.getFirst()->GetChar());
+          retorno = arbol2.getFirst()->GetChar();
           //QMessageBox::warning(this, "Warning:", arbol2.getFirst()->GetChar(), QMessageBox::Ok);
           if(arbol2.getFirst()->GetLeftChild()!=NULL){
-              imprimirNodo(arbol2.getFirst()->GetLeftChild());
+              retorno = imprimirNodo(arbol2.getFirst()->GetLeftChild()) + retorno;
           }
           if(arbol2.getFirst()->GetRightChild()!=NULL){
-              imprimirNodo(arbol2.getFirst()->GetRightChild());
+              retorno = retorno + imprimirNodo(arbol2.getFirst()->GetRightChild());
           }
+          anadirADepurador(retorno);
         }
         LBinaryTree arbol3= aux1.dtnf(arbol2);
         if(arbol3.getFirst()->GetChar()!=""){
-          depurador->Anadir(arbol3.getFirst()->GetChar());
+          anadirADepurador(arbol3.getFirst()->GetChar());
+          retorno = arbol3.getFirst()->GetChar();
           //QMessageBox::warning(this, "Warning:", arbol3.getFirst()->GetChar(), QMessageBox::Ok);
           if(arbol3.getFirst()->GetLeftChild()!=NULL){
-              imprimirNodo(arbol3.getFirst()->GetLeftChild());
+              retorno = imprimirNodo(arbol3.getFirst()->GetLeftChild()) + retorno;
           }
           if(arbol3.getFirst()->GetRightChild()!=NULL){
-              imprimirNodo(arbol3.getFirst()->GetRightChild());
+              retorno = retorno + imprimirNodo(arbol3.getFirst()->GetRightChild());
           }
+          anadirADepurador(retorno);
         }
     } else {
         QMessageBox::warning(this, "Warning:", "Formula not valid", QMessageBox::Ok);
@@ -107,13 +110,27 @@ void MainWindow::on_pBDeleteSET_clicked()
     }
 }
 
-void MainWindow::imprimirNodo(BinaryTreeNode *actual){
-    //QMessageBox::warning(this, "Warning:", actual->GetChar(), QMessageBox::Ok);
-    depurador->Anadir(actual->GetChar());
+QString MainWindow::imprimirNodo(BinaryTreeNode *actual){
+    anadirADepurador(actual->GetChar());
+    QString retorno = actual->GetChar();
     if(actual->GetLeftChild()!=NULL){
-        imprimirNodo(actual->GetLeftChild());
+            retorno = imprimirNodo(actual->GetLeftChild()) + retorno;
     }
     if(actual->GetRightChild()!=NULL){
-        imprimirNodo(actual->GetRightChild());
+        retorno = retorno + imprimirNodo(actual->GetRightChild());
     }
+    if(actual->GetChar()==QString(SimbAND)||actual->GetChar()==QString(SimbOR)
+            ||actual->GetChar()==QString(SimbUNTIL)||actual->GetChar()==QString(SimbRELEASE)
+            ||actual->GetChar()==QString(SimbINPIZQ)||actual->GetChar()==QString(SimbINPDER)
+            ||actual->GetChar()==QString(SimbSSS))
+        retorno = QString("(")+retorno+QString(")");
+    return retorno;
 }
+
+void MainWindow::on_actionLog_triggered(bool checked)
+{
+    if (checked) iniciarDepurador();
+    else terminarDepurador();
+}
+
+

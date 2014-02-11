@@ -1,8 +1,27 @@
 #include "ventana.h"
 
 Ventana *depurador;
+bool state;
 
 void iniciarDepurador(){
-    depurador = new Ventana();
-    depurador->show();
+    if (!state){
+        state = true;
+        depurador = new Ventana();
+        depurador->show();
+    }
+}
+
+void terminarDepurador(){
+    if (state){
+        delete depurador;
+        state = false;
+    }
+}
+
+void anadirADepurador(QString texto){
+    if (state) depurador->Anadir(texto);
+}
+
+bool getEstado(){
+    return state;
 }

@@ -2,6 +2,8 @@
 #include "ui_ventana.h"
 #include <QDateTime>
 
+
+
 Ventana::Ventana(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Ventana)
@@ -15,9 +17,12 @@ Ventana::~Ventana()
 }
 
 void Ventana::Anadir(QString texto){
-    QTime time = QTime::currentTime();
-    QString timeString = time.toString();
-
-    QString aux = ui->textEdit->toPlainText() + "\n" + time.toString() + ": " + texto;
+    QString aux = ui->textEdit->toPlainText() + "\n" + QTime::currentTime().toString() + ": " + texto;
     ui->textEdit->setText(aux);
 }
+
+void Ventana::Vaciar(){
+    ui->textEdit->setText("");
+}
+
+

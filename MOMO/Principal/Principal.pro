@@ -31,8 +31,7 @@ HEADERS  += mainwindow.h \
     binarytreenode.h \
     binarytree.h \
     almacen.h \
-    ventana.h \
-    logicaVentana.h
+    ventana.h
 
 FORMS    += mainwindow.ui \
     ventana.ui

@@ -30,7 +30,9 @@ private slots:
 
     void on_pBDeleteSET_clicked();
 
-    void imprimirNodo(BinaryTreeNode *actual);
+    QString imprimirNodo(BinaryTreeNode *actual);
+
+    void on_actionLog_triggered(bool checked);
 
 private:
     Ui::MainWindow *ui;

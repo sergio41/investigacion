@@ -1,4 +1,0 @@
-#ifndef LOGICAVENTANA_H
-#define LOGICAVENTANA_H
-
-#endif // LOGICAVENTANA_H
