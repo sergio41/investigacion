@@ -36,6 +36,7 @@ public:
     QAction *actionSave;
     QAction *actionExit;
     QAction *actionLog;
+    QAction *actionSave_As;
     QWidget *centralWidget;
     QGridLayout *gridLayout_2;
     QListView *listViewSet;
@@ -70,6 +71,8 @@ public:
         actionLog = new QAction(MainWindow);
         actionLog->setObjectName(QStringLiteral("actionLog"));
         actionLog->setCheckable(true);
+        actionSave_As = new QAction(MainWindow);
+        actionSave_As->setObjectName(QStringLiteral("actionSave_As"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         centralWidget->setLayoutDirection(Qt::LeftToRight);
@@ -147,6 +150,7 @@ public:
         menuBar->addAction(menuOpciones->menuAction());
         menuFile->addAction(actionOpen);
         menuFile->addAction(actionSave);
+        menuFile->addAction(actionSave_As);
         menuFile->addSeparator();
         menuFile->addAction(actionExit);
         menuOpciones->addAction(actionLog);
@@ -164,6 +168,7 @@ public:
         actionSave->setText(QApplication::translate("MainWindow", "Save", 0));
         actionExit->setText(QApplication::translate("MainWindow", "Exit", 0));
         actionLog->setText(QApplication::translate("MainWindow", "Log", 0));
+        actionSave_As->setText(QApplication::translate("MainWindow", "Save As", 0));
         pBDeleteSET->setText(QApplication::translate("MainWindow", "DELETE SELECTED", 0));
         pBClearSET->setText(QApplication::translate("MainWindow", "Clear SET", 0));
         label->setText(QApplication::translate("MainWindow", "Formula", 0));

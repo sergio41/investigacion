@@ -9,6 +9,9 @@
 #include <QModelIndex>
 #include <QModelIndexList>
 #include <QMessageBox>
+#include <QFileDialog>
+#include <QXmlStreamWriter>
+
 QStandardItemModel *model ;
 
 #include <iostream>
@@ -134,3 +137,87 @@ void MainWindow::on_actionLog_triggered(bool checked)
 }
 
 
+
+void MainWindow::on_actionOpen_triggered()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Abrir proyecto"), "", tr("Momo proyect (*.momo)"));
+
+
+
+    QFile * xmlFile = new QFile(fileName);
+    if (!xmlFile->open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QMessageBox::critical(this,"Load XML File Problem",
+        "Couldn't open xmlfile.xml to load settings for download",
+        QMessageBox::Ok);
+        return;
+    } else {
+        QXmlStreamReader * xmlReader = new QXmlStreamReader(xmlFile);
+
+        //Parse the XML until we reach end of it
+        while(!xmlReader->atEnd() && !xmlReader->hasError()) {
+
+            // Read next element
+            QXmlStreamReader::TokenType token = xmlReader->readNext();
+            //If token is just StartDocument - go to next
+            if(token == QXmlStreamReader::StartDocument) continue;
+            //If token is StartElement - read it
+            if(token == QXmlStreamReader::StartElement) {
+                if(xmlReader->name() == "MOMO") continue;
+                if(xmlReader->name() == "version") continue;
+                if(xmlReader->name() == "FORMULAS") continue;
+                if(xmlReader->name() == "FORMULA") continue;
+                if(xmlReader->name() == "form") {
+                    ui->lineEdit->setText(xmlReader->readElementText());
+                    on_pBAnadir_clicked();
+                }
+            }
+        }
+
+        if(xmlReader->hasError()) {
+                QMessageBox::critical(this,
+                "xmlFile.xml Parse Error",xmlReader->errorString(),
+                QMessageBox::Ok);
+                return;
+        }
+
+        //close reader and flush file
+        xmlReader->clear();
+        xmlFile->close();
+    }
+}
+
+void MainWindow::on_actionSave_As_triggered()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save Momo proyect"), "", tr("Momo proyect (*.momo)"));
+    if (fileName.isEmpty())
+        ;
+    else {
+        QFile file(fileName);
+        if (!file.open(QIODevice::WriteOnly))
+            QMessageBox::information(this, tr("Unable to open file"), file.errorString());
+        else {
+            QXmlStreamWriter xmlWriter(&file);
+
+            xmlWriter.setAutoFormatting(true);
+
+            xmlWriter.writeStartDocument();
+
+                xmlWriter.writeStartElement("MOMO");
+                    xmlWriter.writeTextElement("version","1.0");
+                    xmlWriter.writeStartElement("FORMULAS");
+
+                        for (int row = 0; row < model->rowCount(); row++ ) {
+                            QStandardItem* Item = model->item(row, 0);
+                            xmlWriter.writeStartElement("FORMULA");
+                            xmlWriter.writeTextElement("form", Item->text());
+                            xmlWriter.writeEndElement();
+                        }
+
+                    xmlWriter.writeEndElement();
+                xmlWriter.writeEndElement();
+
+            xmlWriter.writeEndDocument();
+            file.close();
+        }
+    }
+}
