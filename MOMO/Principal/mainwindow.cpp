@@ -41,6 +41,7 @@ void MainWindow::on_lineEdit_textChanged()
 
 void MainWindow::on_pBAnadir_clicked()
 {
+    anadirADepurador("Arbol Sintactico");
     QString retorno;
     parser aux = parser();
     if (aux.comprobarParser(ui->lineEdit->text())) {
@@ -59,6 +60,7 @@ void MainWindow::on_pBAnadir_clicked()
           }
           anadirADepurador(retorno);
         }
+        anadirADepurador("Transformacion a NNF");
         LBinaryTree arbol2= aux1.nnf(arbol);
         if(arbol2.getFirst()->GetChar()!=""){
           anadirADepurador(arbol2.getFirst()->GetChar());
@@ -72,6 +74,7 @@ void MainWindow::on_pBAnadir_clicked()
           }
           anadirADepurador(retorno);
         }
+        anadirADepurador("Transformación DTNF");
         LBinaryTree arbol3= aux1.dtnf(arbol2);
         if(arbol3.getFirst()->GetChar()!=""){
           anadirADepurador(arbol3.getFirst()->GetChar());
