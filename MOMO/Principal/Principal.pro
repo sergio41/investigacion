@@ -22,7 +22,8 @@ SOURCES += main.cpp\
     binarytree.cpp \
     almacen.cpp \
     ventana.cpp \
-    logicaVentana.cpp
+    logicaVentana.cpp \
+    generadorvariables.cpp
 
 HEADERS  += mainwindow.h \
     simbolos.h \
@@ -31,7 +32,8 @@ HEADERS  += mainwindow.h \
     binarytreenode.h \
     binarytree.h \
     almacen.h \
-    ventana.h
+    ventana.h \
+    generadorvariables.h
 
 FORMS    += mainwindow.ui \
     ventana.ui

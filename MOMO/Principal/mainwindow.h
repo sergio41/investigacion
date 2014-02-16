@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 #include "binarytreenode.h"
 #include "binarytree.h"
+#include "generadorvariables.h"
 
 #include <QMainWindow>
 

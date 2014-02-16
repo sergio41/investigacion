@@ -6,10 +6,11 @@
 #include "mainwindow.h"
 
 
-
+generadorVariables gen;
 using namespace std;
 
 almacenador::almacenador(){
+    gen = generadorVariables();
 }
 
 LBinaryTree almacenador::almacenar(QString formula){
@@ -396,6 +397,39 @@ BinaryTreeNode * almacenador::dtnfInterno(BinaryTreeNode *nodo){
     }
 }
 
+LBinaryTree almacenador::cnf(LBinaryTree arbol){
+    BinaryTreeNode * primero = arbol.getFirst();
+    cout<< gen.generarVariable().toLocal8Bit().data()<<endl;
+    arbol.setFirst(cnfInterno(primero));
+    return arbol;
+}
+
+BinaryTreeNode * almacenador::cnfInterno(BinaryTreeNode *nodo){
+    cout<< gen.generarVariable().toLocal8Bit().data()<<endl;
+    /*cout<<nodo->GetChar().toLocal8Bit().data()<<endl;
+    if(nodo->GetChar()==QString(SimbNEXT)){
+
+    }else{
+        switch (nodo->nHijos()) {
+        case 0:
+            return nodo;
+            break;
+        case 1:
+            nodo->SetLeftChild(dtnfInterno(nodo->GetLeftChild()));
+            return nodo;
+            break;
+        case 2:
+            nodo->SetLeftChild(dtnfInterno(nodo->GetLeftChild()));
+            nodo->SetRightChild(dtnfInterno(nodo->GetRightChild()));
+            return nodo;
+            break;
+        default:
+            return nodo;
+            break;
+        }
+    }*/
+    return nodo;
+}
 
 int almacenador::siguienteOp(QString formula){
     if(formula.size()==0)

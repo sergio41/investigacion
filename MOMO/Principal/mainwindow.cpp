@@ -13,6 +13,8 @@
 #include <QXmlStreamWriter>
 
 QStandardItemModel *model;
+almacenador almac;
+parser par;
 
 #include <iostream>
 using namespace std;
@@ -24,7 +26,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     model = new QStandardItemModel(this);
     ui->listViewSet->setModel(model);
-
+    almac = almacenador();
+    par = parser();
 }
 
 MainWindow::~MainWindow()
@@ -43,12 +46,10 @@ void MainWindow::on_pBAnadir_clicked()
 {
     anadirADepurador("Arbol Sintactico");
     QString retorno;
-    parser aux = parser();
-    if (aux.comprobarParser(ui->lineEdit->text())) {
+    if (par.comprobarParser(ui->lineEdit->text())) {
         QStandardItem* Items = new QStandardItem(ui->lineEdit->text());
         model->appendRow(Items);
-        almacenador aux1 = almacenador();
-        LBinaryTree arbol = aux1.almacenar(ui->lineEdit->text());
+        LBinaryTree arbol = almac.almacenar(ui->lineEdit->text());
         if(arbol.getFirst()->GetChar()!=""){
           anadirADepurador(arbol.getFirst()->GetChar());
           retorno = arbol.getFirst()->GetChar();
@@ -61,7 +62,7 @@ void MainWindow::on_pBAnadir_clicked()
           anadirADepurador(retorno);
         }
         anadirADepurador("Transformacion a NNF");
-        LBinaryTree arbol2= aux1.nnf(arbol);
+        LBinaryTree arbol2= almac.nnf(arbol);
         if(arbol2.getFirst()->GetChar()!=""){
           anadirADepurador(arbol2.getFirst()->GetChar());
           retorno = arbol2.getFirst()->GetChar();
@@ -75,7 +76,7 @@ void MainWindow::on_pBAnadir_clicked()
           anadirADepurador(retorno);
         }
         anadirADepurador("Transformación DTNF");
-        LBinaryTree arbol3= aux1.dtnf(arbol2);
+        LBinaryTree arbol3= almac.dtnf(arbol2);
         if(arbol3.getFirst()->GetChar()!=""){
           anadirADepurador(arbol3.getFirst()->GetChar());
           retorno = arbol3.getFirst()->GetChar();
@@ -88,6 +89,8 @@ void MainWindow::on_pBAnadir_clicked()
           }
           anadirADepurador(retorno);
         }
+        almac.cnf(arbol3);
+        almac.cnf(arbol3);
     } else {
         QMessageBox::warning(this, "Warning:", "Formula not valid", QMessageBox::Ok);
     }
