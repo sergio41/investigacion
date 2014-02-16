@@ -407,54 +407,17 @@ int almacenador::siguienteOp(QString formula){
             parentesis++;
         else if(formula.at(i)==')')
             parentesis--;
-        else if(parentesis==0 && (formula.at(i)== QString(SimbAND)
-                                  || formula.at(i)== QString(SimbOR)
-                                  || formula.at(i)==QString(SimbINPDER)
-                                  || formula.at(i)==QString(SimbUNTIL)
-                                  || formula.at(i)==QString(SimbRELEASE)
-                                  || formula.at(i)==QString(SimbSSS)))
+        else if(parentesis==0 && (formula.at(i)== QString(SimbUNTIL)))
             return i;
-        else if(parentesis==0 && (formula.at(i)== QString(SimbAND)
-                                  || formula.at(i)== QString(SimbOR)
-                                  || formula.at(i)==QString(SimbINPDER)
-                                  || formula.at(i)==QString(SimbUNTIL)
-                                  || formula.at(i)==QString(SimbRELEASE)
-                                  || formula.at(i)==QString(SimbSSS)))
+        else if(parentesis==0 && (formula.at(i)== QString(SimbRELEASE)))
             return i;
-        else if(parentesis==0 && (formula.at(i)== QString(SimbAND)
-                                  || formula.at(i)== QString(SimbOR)
-                                  || formula.at(i)==QString(SimbINPDER)
-                                  || formula.at(i)==QString(SimbUNTIL)
-                                  || formula.at(i)==QString(SimbRELEASE)
-                                  || formula.at(i)==QString(SimbSSS)))
+        else if(parentesis==0 && (formula.at(i)== QString(SimbAND)))
             return i;
-        else if(parentesis==0 && (formula.at(i)== QString(SimbAND)
-                                  || formula.at(i)== QString(SimbOR)
-                                  || formula.at(i)==QString(SimbINPDER)
-                                  || formula.at(i)==QString(SimbUNTIL)
-                                  || formula.at(i)==QString(SimbRELEASE)
-                                  || formula.at(i)==QString(SimbSSS)))
+        else if(parentesis==0 && (formula.at(i)== QString(SimbOR)))
             return i;
-        else if(parentesis==0 && (formula.at(i)== QString(SimbAND)
-                                  || formula.at(i)== QString(SimbOR)
-                                  || formula.at(i)==QString(SimbINPDER)
-                                  || formula.at(i)==QString(SimbUNTIL)
-                                  || formula.at(i)==QString(SimbRELEASE)
-                                  || formula.at(i)==QString(SimbSSS)))
+        else if(parentesis==0 && (formula.at(i)== QString(SimbINPDER)))
             return i;
-        else if(parentesis==0 && (formula.at(i)== QString(SimbAND)
-                                  || formula.at(i)== QString(SimbOR)
-                                  || formula.at(i)==QString(SimbINPDER)
-                                  || formula.at(i)==QString(SimbUNTIL)
-                                  || formula.at(i)==QString(SimbRELEASE)
-                                  || formula.at(i)==QString(SimbSSS)))
-            return i;
-        else if(parentesis==0 && (formula.at(i)== QString(SimbAND)
-                                  || formula.at(i)== QString(SimbOR)
-                                  || formula.at(i)==QString(SimbINPDER)
-                                  || formula.at(i)==QString(SimbUNTIL)
-                                  || formula.at(i)==QString(SimbRELEASE)
-                                  || formula.at(i)==QString(SimbSSS)))
+        else if(parentesis==0 && (formula.at(i)== QString(SimbSSS)))
             return i;
         i++;
     }
