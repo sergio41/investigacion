@@ -409,14 +409,54 @@ int almacenador::siguienteOp(QString formula){
             parentesis--;
         else if(parentesis==0 && (formula.at(i)== QString(SimbUNTIL)))
             return i;
+        i++;
+    }
+    i=0;
+    while(i!=formula.size()-1){
+        if(formula.at(i)=='(')
+            parentesis++;
+        else if(formula.at(i)==')')
+            parentesis--;
         else if(parentesis==0 && (formula.at(i)== QString(SimbRELEASE)))
             return i;
+        i++;
+    }
+    i=0;
+    while(i!=formula.size()-1){
+        if(formula.at(i)=='(')
+            parentesis++;
+        else if(formula.at(i)==')')
+            parentesis--;
         else if(parentesis==0 && (formula.at(i)== QString(SimbAND)))
             return i;
+        i++;
+    }
+    i=0;
+    while(i!=formula.size()-1){
+        if(formula.at(i)=='(')
+            parentesis++;
+        else if(formula.at(i)==')')
+            parentesis--;
         else if(parentesis==0 && (formula.at(i)== QString(SimbOR)))
             return i;
+        i++;
+    }
+    i=0;
+    while(i!=formula.size()-1){
+        if(formula.at(i)=='(')
+            parentesis++;
+        else if(formula.at(i)==')')
+            parentesis--;
         else if(parentesis==0 && (formula.at(i)== QString(SimbINPDER)))
             return i;
+        i++;
+    }
+    i=0;
+    while(i!=formula.size()-1){
+        if(formula.at(i)=='(')
+            parentesis++;
+        else if(formula.at(i)==')')
+            parentesis--;
         else if(parentesis==0 && (formula.at(i)== QString(SimbSSS)))
             return i;
         i++;
