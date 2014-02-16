@@ -127,8 +127,7 @@ QString MainWindow::imprimirNodo(BinaryTreeNode *actual){
     }
     if(actual->GetChar()==QString(SimbAND)||actual->GetChar()==QString(SimbOR)
             ||actual->GetChar()==QString(SimbUNTIL)||actual->GetChar()==QString(SimbRELEASE)
-            ||actual->GetChar()==QString(SimbINPIZQ)||actual->GetChar()==QString(SimbINPDER)
-            ||actual->GetChar()==QString(SimbSSS))
+            ||actual->GetChar()==QString(SimbINPDER)||actual->GetChar()==QString(SimbSSS))
         retorno = QString("(")+retorno+QString(")");
     return retorno;
 }

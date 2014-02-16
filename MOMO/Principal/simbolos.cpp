@@ -11,7 +11,6 @@ QString simbolos::pasarDeTextoATextoConSimbolos(QString text){
     text = text.replace("&", SimbAND);
     text = text.replace("F", SimbEVENTUALLY);
     text = text.replace(">", SimbINPDER);
-    text = text.replace("<", SimbINPIZQ);
     text = text.replace("X", SimbNEXT);
     text = text.replace("-", SimbNOT);
     text = text.replace("|", SimbOR);

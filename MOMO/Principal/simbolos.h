@@ -8,7 +8,6 @@
 #define SimbEVENTUALLY  "◊"
 #define SimbNEXT        "○"
 #define SimbALWAYS      "□"
-#define SimbINPIZQ      "←"
 #define SimbINPDER      "→"
 #define SimbSSS         "↔"
 #define SimbAND         "∧"
@@ -21,7 +20,6 @@
 #define CSimbEVENTUALLY  '◊'
 #define CSimbNEXT        '○'
 #define CSimbALWAYS      '□'
-#define CSimbINPIZQ      '←'
 #define CSimbINPDER      '→'
 #define CSimbSSS         '↔'
 #define CSimbAND         '∧'

@@ -64,7 +64,7 @@ bool parser::comprobarParserInterno(QString formula){
             fin = false;
             return (comprobarParserInterno(formula.right(formula.length()-1)));
         } else return false;
-    } else if (formula.at(0) == QString(SimbAND) || formula.at(0) == QString(SimbOR) || formula.at(0) == QString(SimbRELEASE) || formula.at(0) == QString(SimbUNTIL) || formula.at(0) == QString(SimbINPDER) || formula.at(0) == QString(SimbINPIZQ) || formula.at(0) == QString(SimbSSS)){
+    } else if (formula.at(0) == QString(SimbAND) || formula.at(0) == QString(SimbOR) || formula.at(0) == QString(SimbRELEASE) || formula.at(0) == QString(SimbUNTIL) || formula.at(0) == QString(SimbINPDER)  || formula.at(0) == QString(SimbSSS)){
         if (binarios){
             parentesisAbrir = true;
             parentesisCerrar = false;
