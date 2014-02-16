@@ -412,6 +412,7 @@ int almacenador::siguienteOp(QString formula){
         i++;
     }
     i=0;
+    parentesis = 0;
     while(i!=formula.size()-1){
         if(formula.at(i)=='(')
             parentesis++;
@@ -422,6 +423,7 @@ int almacenador::siguienteOp(QString formula){
         i++;
     }
     i=0;
+    parentesis = 0;
     while(i!=formula.size()-1){
         if(formula.at(i)=='(')
             parentesis++;
@@ -432,6 +434,7 @@ int almacenador::siguienteOp(QString formula){
         i++;
     }
     i=0;
+    parentesis = 0;
     while(i!=formula.size()-1){
         if(formula.at(i)=='(')
             parentesis++;
@@ -442,6 +445,7 @@ int almacenador::siguienteOp(QString formula){
         i++;
     }
     i=0;
+    parentesis = 0;
     while(i!=formula.size()-1){
         if(formula.at(i)=='(')
             parentesis++;
@@ -452,6 +456,7 @@ int almacenador::siguienteOp(QString formula){
         i++;
     }
     i=0;
+    parentesis = 0;
     while(i!=formula.size()-1){
         if(formula.at(i)=='(')
             parentesis++;

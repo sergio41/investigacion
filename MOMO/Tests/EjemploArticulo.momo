@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MOMO>
+    <version>1.0</version>
+    <FORMULAS>
+        <FORMULA>
+            <form>¬(p∧r∧□(¬(p∧r)∨○(p∧r)))</form>
+        </FORMULA>
+    </FORMULAS>
+</MOMO>
