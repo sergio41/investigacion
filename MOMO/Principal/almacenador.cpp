@@ -451,6 +451,29 @@ BinaryTreeNode * almacenador::cnfInterno2(BinaryTreeNode *nodo){
         nuevaRamaDerecha->SetRightChild(aux2);
         nuevoPadre->SetRightChild(nuevaRamaDerecha);
         return nuevoPadre;
+    }else if ((nodo->GetChar()==QString(SimbEVENTUALLY) || nodo->GetChar()==QString(SimbALWAYS))&& !(nodo->GetLeftChild()->GetChar()==QString(SimbAND)
+                                                                                                     ||nodo->GetLeftChild()->GetChar()==QString(SimbOR)
+                                                                                                     ||nodo->GetLeftChild()->GetChar()==QString(SimbINPDER)
+                                                                                                     ||nodo->GetLeftChild()->GetChar()==QString(SimbSSS))){
+        BinaryTreeNode * izquierda = nodo->GetLeftChild();
+        QString p1 = gen.generarVariable();
+        BinaryTreeNode * nueva1 = new BinaryTreeNode(p1);
+        nodo->SetLeftChild(nueva1);
+        BinaryTreeNode * nuevoPadre = new BinaryTreeNode(SimbAND);
+        nuevoPadre->SetLeftChild(nodo);
+        BinaryTreeNode * aTransformar1 = new BinaryTreeNode(SimbALWAYS);
+        BinaryTreeNode * aTransformar1O = new BinaryTreeNode(SimbOR);
+        BinaryTreeNode * neg = new BinaryTreeNode(SimbNOT);
+        BinaryTreeNode * nueva2 = new BinaryTreeNode(p1);
+        neg->SetLeftChild(nueva2);
+        aTransformar1O->SetLeftChild(neg);
+        aTransformar1O->SetRightChild(izquierda);
+        aTransformar1->SetLeftChild(aTransformar1O);
+        BinaryTreeNode * aux1 = nnfInterno(aTransformar1);
+        aux1 = dtnfInterno(aux1);
+        aux1 = cnfInterno(aux1);
+        nuevoPadre->SetRightChild(aux1);
+        return nuevoPadre;
     }else{
         switch (nodo->nHijos()) {
         case 0:
