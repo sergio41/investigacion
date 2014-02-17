@@ -22,6 +22,7 @@ private:
     BinaryTreeNode *nnfInterno(BinaryTreeNode *nodo);
     BinaryTreeNode *dtnfInterno(BinaryTreeNode *nodo);
     BinaryTreeNode *cnfInterno(BinaryTreeNode *nodo);
+    BinaryTreeNode *cnfInterno2(BinaryTreeNode *nodo);
     bool comparanodos(BinaryTreeNode * nodo1, BinaryTreeNode * nodo2);
 };
 

@@ -89,8 +89,19 @@ void MainWindow::on_pBAnadir_clicked()
           }
           anadirADepurador(retorno);
         }
-        almac.cnf(arbol3);
-        almac.cnf(arbol3);
+        anadirADepurador("Transformación CNF");
+        LBinaryTree arbolFinal = almac.cnf(arbol3);
+        if(arbolFinal.getFirst()->GetChar()!=""){
+            anadirADepurador(arbolFinal.getFirst()->GetChar());
+            retorno = arbolFinal.getFirst()->GetChar();
+            if(arbolFinal.getFirst()->GetLeftChild()!=NULL){
+                retorno = imprimirNodo(arbolFinal.getFirst()->GetLeftChild()) + retorno;
+            }
+            if(arbolFinal.getFirst()->GetRightChild()!=NULL){
+                retorno = retorno + imprimirNodo(arbolFinal.getFirst()->GetRightChild());
+            }
+            anadirADepurador(retorno);
+          }
     } else {
         QMessageBox::warning(this, "Warning:", "Formula not valid", QMessageBox::Ok);
     }
@@ -123,6 +134,10 @@ QString MainWindow::imprimirNodo(BinaryTreeNode *actual){
     anadirADepurador(actual->GetChar());
     QString retorno = actual->GetChar();
     if(actual->GetLeftChild()!=NULL){
+        if(actual->GetChar()==QString(SimbNOT)|| actual->GetChar()==QString(SimbEVENTUALLY)
+                ||actual->GetChar()==QString(SimbALWAYS)|| actual->GetChar()==QString(SimbNEXT))
+            retorno = retorno + imprimirNodo(actual->GetLeftChild());
+        else
             retorno = imprimirNodo(actual->GetLeftChild()) + retorno;
     }
     if(actual->GetRightChild()!=NULL){

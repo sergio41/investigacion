@@ -95,6 +95,7 @@ LBinaryTree almacenador::nnf(LBinaryTree arbol){
 BinaryTreeNode * almacenador::nnfInterno(BinaryTreeNode *nodo){
     cout<<nodo->GetChar().toLocal8Bit().data()<<endl;
     if(nodo->GetChar()==QString(SimbNOT)){
+        cout<<"Entro"<<endl;
         if(nodo->GetLeftChild()->GetChar()==QString(SimbNOT)){
             return nnfInterno(nodo->GetLeftChild()->GetLeftChild());
         }else if(nodo->GetLeftChild()->GetChar()==QString(SimbNEXT)){
@@ -166,6 +167,8 @@ BinaryTreeNode * almacenador::nnfInterno(BinaryTreeNode *nodo){
             aux->setChar(SimbRELEASE);
             return aux;
         }else{
+            cout<<"Entro"<<endl;
+            cout<<nodo->GetLeftChild()->GetChar().toLocal8Bit().data()<<endl;
             nodo->SetLeftChild(nnfInterno(nodo->GetLeftChild()));
             return nodo;
         }
@@ -399,37 +402,77 @@ BinaryTreeNode * almacenador::dtnfInterno(BinaryTreeNode *nodo){
 
 LBinaryTree almacenador::cnf(LBinaryTree arbol){
     BinaryTreeNode * primero = arbol.getFirst();
-    cout<< gen.generarVariable().toLocal8Bit().data()<<endl;
     arbol.setFirst(cnfInterno(primero));
     return arbol;
 }
 
 BinaryTreeNode * almacenador::cnfInterno(BinaryTreeNode *nodo){
-    cout<< gen.generarVariable().toLocal8Bit().data()<<endl;
-    /*cout<<nodo->GetChar().toLocal8Bit().data()<<endl;
-    if(nodo->GetChar()==QString(SimbNEXT)){
+    BinaryTreeNode * aux;
+    aux = cnfInterno2(nodo);
+    return aux;
+}
 
+BinaryTreeNode * almacenador::cnfInterno2(BinaryTreeNode *nodo){
+    if(nodo->GetChar()==QString(SimbUNTIL) || nodo->GetChar()==QString(SimbRELEASE)){
+        BinaryTreeNode * izquierda = nodo->GetLeftChild();
+        BinaryTreeNode * derecha = nodo->GetRightChild();
+        QString p1 = gen.generarVariable();
+        QString p2 = gen.generarVariable();
+        BinaryTreeNode * nueva1 = new BinaryTreeNode(p1);
+        BinaryTreeNode * nueva2 = new  BinaryTreeNode(p2);
+        nodo->SetLeftChild(nueva1);
+        nodo->SetRightChild(nueva2);
+        BinaryTreeNode * nuevoPadre = new BinaryTreeNode(SimbAND);
+        nuevoPadre->SetLeftChild(nodo);
+        BinaryTreeNode * nuevaRamaDerecha = new BinaryTreeNode(SimbAND);
+        BinaryTreeNode * aTransformar1 = new BinaryTreeNode(SimbALWAYS);
+        BinaryTreeNode * aTransformar1O = new BinaryTreeNode(SimbOR);
+        BinaryTreeNode * neg1 = new BinaryTreeNode(SimbNOT);
+        BinaryTreeNode * nueva3 = new BinaryTreeNode(p1);
+        neg1->SetLeftChild(nueva3);
+        aTransformar1O->SetLeftChild(neg1);
+        aTransformar1O->SetRightChild(izquierda);
+        aTransformar1->SetLeftChild(aTransformar1O);
+        BinaryTreeNode * aTransformar2 = new BinaryTreeNode(SimbALWAYS);
+        BinaryTreeNode * aTransformar2O = new BinaryTreeNode(SimbOR);
+        BinaryTreeNode * neg2 = new BinaryTreeNode(SimbNOT);
+        BinaryTreeNode * nueva4 = new BinaryTreeNode(p2);
+        neg2->SetLeftChild(nueva4);
+        aTransformar2O->SetLeftChild(neg2);
+        aTransformar2O->SetRightChild(derecha);
+        aTransformar2->SetLeftChild(aTransformar2O);
+        BinaryTreeNode * aux1 = nnfInterno(aTransformar1);
+        aux1 = dtnfInterno(aux1);
+        aux1 = cnfInterno(aux1);
+        nuevaRamaDerecha->SetLeftChild(aux1);
+        BinaryTreeNode * aux2 = nnfInterno(aTransformar2);
+        aux2 = dtnfInterno(aux2);
+        aux2 = cnfInterno(aux2);
+        nuevaRamaDerecha->SetRightChild(aux2);
+        nuevoPadre->SetRightChild(nuevaRamaDerecha);
+        return nuevoPadre;
     }else{
         switch (nodo->nHijos()) {
         case 0:
             return nodo;
             break;
         case 1:
-            nodo->SetLeftChild(dtnfInterno(nodo->GetLeftChild()));
+            nodo->SetLeftChild(cnfInterno(nodo->GetLeftChild()));
             return nodo;
             break;
         case 2:
-            nodo->SetLeftChild(dtnfInterno(nodo->GetLeftChild()));
-            nodo->SetRightChild(dtnfInterno(nodo->GetRightChild()));
+            nodo->SetLeftChild(cnfInterno(nodo->GetLeftChild()));
+            nodo->SetRightChild(cnfInterno(nodo->GetRightChild()));
             return nodo;
             break;
         default:
             return nodo;
             break;
         }
-    }*/
-    return nodo;
+        return nodo;
+    }
 }
+
 
 int almacenador::siguienteOp(QString formula){
     if(formula.size()==0)
