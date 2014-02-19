@@ -54,7 +54,11 @@ void MainWindow::on_pBAnadir_clicked()
           anadirADepurador(arbol.getFirst()->GetChar());
           retorno = arbol.getFirst()->GetChar();
           if(arbol.getFirst()->GetLeftChild()!=NULL){
-              retorno = imprimirNodo(arbol.getFirst()->GetLeftChild()) + retorno;
+              if(arbol.getFirst()->GetChar()==QString(SimbNOT)|| arbol.getFirst()->GetChar()==QString(SimbEVENTUALLY)
+                      ||arbol.getFirst()->GetChar()==QString(SimbALWAYS)|| arbol.getFirst()->GetChar()==QString(SimbNEXT))
+                  retorno = retorno + imprimirNodo(arbol.getFirst()->GetLeftChild());
+              else
+                  retorno = imprimirNodo(arbol.getFirst()->GetLeftChild()) + retorno;
           }
           if(arbol.getFirst()->GetRightChild()!=NULL){
               retorno = retorno + imprimirNodo(arbol.getFirst()->GetRightChild());
@@ -66,9 +70,12 @@ void MainWindow::on_pBAnadir_clicked()
         if(arbol2.getFirst()->GetChar()!=""){
           anadirADepurador(arbol2.getFirst()->GetChar());
           retorno = arbol2.getFirst()->GetChar();
-          //QMessageBox::warning(this, "Warning:", arbol2.getFirst()->GetChar(), QMessageBox::Ok);
           if(arbol2.getFirst()->GetLeftChild()!=NULL){
-              retorno = imprimirNodo(arbol2.getFirst()->GetLeftChild()) + retorno;
+              if(arbol2.getFirst()->GetChar()==QString(SimbNOT)|| arbol2.getFirst()->GetChar()==QString(SimbEVENTUALLY)
+                      ||arbol2.getFirst()->GetChar()==QString(SimbALWAYS)|| arbol2.getFirst()->GetChar()==QString(SimbNEXT))
+                  retorno = retorno + imprimirNodo(arbol2.getFirst()->GetLeftChild());
+              else
+                  retorno = imprimirNodo(arbol2.getFirst()->GetLeftChild()) + retorno;
           }
           if(arbol2.getFirst()->GetRightChild()!=NULL){
               retorno = retorno + imprimirNodo(arbol2.getFirst()->GetRightChild());
@@ -80,9 +87,12 @@ void MainWindow::on_pBAnadir_clicked()
         if(arbol3.getFirst()->GetChar()!=""){
           anadirADepurador(arbol3.getFirst()->GetChar());
           retorno = arbol3.getFirst()->GetChar();
-          //QMessageBox::warning(this, "Warning:", arbol3.getFirst()->GetChar(), QMessageBox::Ok);
           if(arbol3.getFirst()->GetLeftChild()!=NULL){
-              retorno = imprimirNodo(arbol3.getFirst()->GetLeftChild()) + retorno;
+              if(arbol3.getFirst()->GetChar()==QString(SimbNOT)|| arbol3.getFirst()->GetChar()==QString(SimbEVENTUALLY)
+                      ||arbol3.getFirst()->GetChar()==QString(SimbALWAYS)|| arbol3.getFirst()->GetChar()==QString(SimbNEXT))
+                  retorno = retorno + imprimirNodo(arbol3.getFirst()->GetLeftChild());
+              else
+                  retorno = imprimirNodo(arbol3.getFirst()->GetLeftChild()) + retorno;
           }
           if(arbol3.getFirst()->GetRightChild()!=NULL){
               retorno = retorno + imprimirNodo(arbol3.getFirst()->GetRightChild());

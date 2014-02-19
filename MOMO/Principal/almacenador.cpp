@@ -443,18 +443,15 @@ BinaryTreeNode * almacenador::cnfInterno2(BinaryTreeNode *nodo){
         aTransformar2->SetLeftChild(aTransformar2O);
         BinaryTreeNode * aux1 = nnfInterno(aTransformar1);
         aux1 = dtnfInterno(aux1);
-        aux1 = cnfInterno(aux1);
+        aux1->SetLeftChild(cnfInterno(aux1->GetLeftChild()));
         nuevaRamaDerecha->SetLeftChild(aux1);
         BinaryTreeNode * aux2 = nnfInterno(aTransformar2);
         aux2 = dtnfInterno(aux2);
-        aux2 = cnfInterno(aux2);
+        aux2->SetLeftChild(cnfInterno(aux2->GetLeftChild()));
         nuevaRamaDerecha->SetRightChild(aux2);
         nuevoPadre->SetRightChild(nuevaRamaDerecha);
         return nuevoPadre;
-    }else if ((nodo->GetChar()==QString(SimbEVENTUALLY) || nodo->GetChar()==QString(SimbALWAYS))&& !(nodo->GetLeftChild()->GetChar()==QString(SimbAND)
-                                                                                                     ||nodo->GetLeftChild()->GetChar()==QString(SimbOR)
-                                                                                                     ||nodo->GetLeftChild()->GetChar()==QString(SimbINPDER)
-                                                                                                     ||nodo->GetLeftChild()->GetChar()==QString(SimbSSS))){
+    }else if ((nodo->GetChar()==QString(SimbEVENTUALLY) || nodo->GetChar()==QString(SimbALWAYS))&& isDistributed(nodo->GetLeftChild())){
         BinaryTreeNode * izquierda = nodo->GetLeftChild();
         QString p1 = gen.generarVariable();
         BinaryTreeNode * nueva1 = new BinaryTreeNode(p1);
@@ -471,7 +468,7 @@ BinaryTreeNode * almacenador::cnfInterno2(BinaryTreeNode *nodo){
         aTransformar1->SetLeftChild(aTransformar1O);
         BinaryTreeNode * aux1 = nnfInterno(aTransformar1);
         aux1 = dtnfInterno(aux1);
-        aux1 = cnfInterno(aux1);
+        aux1->SetLeftChild(cnfInterno(aux1->GetLeftChild()));
         nuevoPadre->SetRightChild(aux1);
         return nuevoPadre;
     }else{
@@ -612,4 +609,19 @@ bool almacenador::comparanodos(BinaryTreeNode * nodo1, BinaryTreeNode * nodo2){
             }
         }
     }
+}
+
+bool almacenador::isDistributed(BinaryTreeNode * actual){
+    if(actual->GetChar()==QString(SimbNEXT)){
+        while (actual->GetChar()==QString(SimbNEXT)){
+            actual=actual->GetLeftChild();
+        }
+    }
+    if(/*actual->GetChar()==QString(SimbAND)||*/actual->GetChar()==QString(SimbOR)||
+            actual->GetChar()==QString(SimbINPDER)||actual->GetChar()==QString(SimbSSS))
+        return false;
+    else if((actual->GetChar()==QString(SimbAND)||actual->GetChar()==QString(SimbOR))&& comparanodos(actual->GetLeftChild(),actual->GetRightChild()))
+        return false;
+    else
+        return true;
 }

@@ -24,6 +24,7 @@ private:
     BinaryTreeNode *cnfInterno(BinaryTreeNode *nodo);
     BinaryTreeNode *cnfInterno2(BinaryTreeNode *nodo);
     bool comparanodos(BinaryTreeNode * nodo1, BinaryTreeNode * nodo2);
+    bool isDistributed(BinaryTreeNode * actual);
 };
 
 #endif // ALMACENADOR_H
