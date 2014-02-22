@@ -23,7 +23,8 @@ SOURCES += main.cpp\
     almacen.cpp \
     ventana.cpp \
     logicaVentana.cpp \
-    generadorvariables.cpp
+    generadorvariables.cpp \
+    estructuraauxiliarcnf.cpp
 
 HEADERS  += mainwindow.h \
     simbolos.h \
@@ -33,7 +34,8 @@ HEADERS  += mainwindow.h \
     binarytree.h \
     almacen.h \
     ventana.h \
-    generadorvariables.h
+    generadorvariables.h \
+    estructuraauxiliarcnf.h
 
 FORMS    += mainwindow.ui \
     ventana.ui

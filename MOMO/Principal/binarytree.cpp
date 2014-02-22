@@ -17,3 +17,11 @@ void LBinaryTree::setID(QString id){
 void LBinaryTree::setFirst(BinaryTreeNode *binNod){
     firstNode=binNod;
 }
+
+BinaryTreeNode * LBinaryTree::unir(BinaryTreeNode * nuevo){
+    BinaryTreeNode * nuevoPrimero = new BinaryTreeNode(SimbAND);
+    nuevoPrimero->SetLeftChild(firstNode);
+    nuevoPrimero->SetRightChild(nuevo);
+    setFirst(nuevoPrimero);
+    return firstNode;
+}

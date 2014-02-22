@@ -402,94 +402,109 @@ BinaryTreeNode * almacenador::dtnfInterno(BinaryTreeNode *nodo){
 
 LBinaryTree almacenador::cnf(LBinaryTree arbol){
     BinaryTreeNode * primero = arbol.getFirst();
-    arbol.setFirst(cnfInterno(primero));
+    arbol.setFirst(cnfInterno(primero, arbol).getPrimero().getFirst());
     return arbol;
 }
 
-BinaryTreeNode * almacenador::cnfInterno(BinaryTreeNode *nodo){
-    BinaryTreeNode * aux;
-    aux = cnfInterno2(nodo);
-    return aux;
+EstructuraAuxiliarCNF almacenador::cnfInterno(BinaryTreeNode *nodo, LBinaryTree arbol){
+    return cnfInterno2(nodo, arbol);
 }
 
-BinaryTreeNode * almacenador::cnfInterno2(BinaryTreeNode *nodo){
+EstructuraAuxiliarCNF almacenador::cnfInterno2(BinaryTreeNode *nodo, LBinaryTree arbol){
+    EstructuraAuxiliarCNF aux = EstructuraAuxiliarCNF();
     if(nodo->GetChar()==QString(SimbUNTIL) || nodo->GetChar()==QString(SimbRELEASE)){
-        BinaryTreeNode * izquierda = nodo->GetLeftChild();
-        BinaryTreeNode * derecha = nodo->GetRightChild();
-        QString p1 = gen.generarVariable();
-        QString p2 = gen.generarVariable();
-        BinaryTreeNode * nueva1 = new BinaryTreeNode(p1);
-        BinaryTreeNode * nueva2 = new  BinaryTreeNode(p2);
-        nodo->SetLeftChild(nueva1);
-        nodo->SetRightChild(nueva2);
-        BinaryTreeNode * nuevoPadre = new BinaryTreeNode(SimbAND);
-        nuevoPadre->SetLeftChild(nodo);
-        BinaryTreeNode * nuevaRamaDerecha = new BinaryTreeNode(SimbAND);
-        BinaryTreeNode * aTransformar1 = new BinaryTreeNode(SimbALWAYS);
-        BinaryTreeNode * aTransformar1O = new BinaryTreeNode(SimbOR);
-        BinaryTreeNode * neg1 = new BinaryTreeNode(SimbNOT);
-        BinaryTreeNode * nueva3 = new BinaryTreeNode(p1);
-        neg1->SetLeftChild(nueva3);
-        aTransformar1O->SetLeftChild(neg1);
-        aTransformar1O->SetRightChild(izquierda);
-        aTransformar1->SetLeftChild(aTransformar1O);
-        BinaryTreeNode * aTransformar2 = new BinaryTreeNode(SimbALWAYS);
-        BinaryTreeNode * aTransformar2O = new BinaryTreeNode(SimbOR);
-        BinaryTreeNode * neg2 = new BinaryTreeNode(SimbNOT);
-        BinaryTreeNode * nueva4 = new BinaryTreeNode(p2);
-        neg2->SetLeftChild(nueva4);
-        aTransformar2O->SetLeftChild(neg2);
-        aTransformar2O->SetRightChild(derecha);
-        aTransformar2->SetLeftChild(aTransformar2O);
-        BinaryTreeNode * aux1 = nnfInterno(aTransformar1);
-        aux1 = dtnfInterno(aux1);
-        aux1->SetLeftChild(cnfInterno(aux1->GetLeftChild()));
-        nuevaRamaDerecha->SetLeftChild(aux1);
-        BinaryTreeNode * aux2 = nnfInterno(aTransformar2);
-        aux2 = dtnfInterno(aux2);
-        aux2->SetLeftChild(cnfInterno(aux2->GetLeftChild()));
-        nuevaRamaDerecha->SetRightChild(aux2);
-        nuevoPadre->SetRightChild(nuevaRamaDerecha);
-        return nuevoPadre;
-    }else if ((nodo->GetChar()==QString(SimbEVENTUALLY) || nodo->GetChar()==QString(SimbALWAYS))&& isDistributed(nodo->GetLeftChild())){
-        BinaryTreeNode * izquierda = nodo->GetLeftChild();
-        QString p1 = gen.generarVariable();
-        BinaryTreeNode * nueva1 = new BinaryTreeNode(p1);
-        nodo->SetLeftChild(nueva1);
-        BinaryTreeNode * nuevoPadre = new BinaryTreeNode(SimbAND);
-        nuevoPadre->SetLeftChild(nodo);
-        BinaryTreeNode * aTransformar1 = new BinaryTreeNode(SimbALWAYS);
-        BinaryTreeNode * aTransformar1O = new BinaryTreeNode(SimbOR);
-        BinaryTreeNode * neg = new BinaryTreeNode(SimbNOT);
-        BinaryTreeNode * nueva2 = new BinaryTreeNode(p1);
-        neg->SetLeftChild(nueva2);
-        aTransformar1O->SetLeftChild(neg);
-        aTransformar1O->SetRightChild(izquierda);
-        aTransformar1->SetLeftChild(aTransformar1O);
-        BinaryTreeNode * aux1 = nnfInterno(aTransformar1);
-        aux1 = dtnfInterno(aux1);
-        aux1->SetLeftChild(cnfInterno(aux1->GetLeftChild()));
-        nuevoPadre->SetRightChild(aux1);
-        return nuevoPadre;
+        BinaryTreeNode * izq = nodo->GetLeftChild();
+        BinaryTreeNode * der = nodo->GetRightChild();
+        QString nuevaVar1 = gen.generarVariable();
+        QString nuevaVar2 = gen.generarVariable();
+        nodo->SetLeftChild(new BinaryTreeNode(nuevaVar1));
+        nodo->SetRightChild(new BinaryTreeNode(nuevaVar2));
+        BinaryTreeNode * nuevaForm1 = crearSubArbol(izq, nuevaVar1);
+        nuevaForm1=nnfInterno(nuevaForm1);
+        nuevaForm1=dtnfInterno(nuevaForm1);
+        aux=cnfInterno2(nuevaForm1,arbol);
+        arbol.setFirst(aux.getPrimero().unir(aux.getACtual()));
+        BinaryTreeNode * nuevaForm2 = crearSubArbol(der, nuevaVar2);
+        nuevaForm2=nnfInterno(nuevaForm2);
+        nuevaForm2=dtnfInterno(nuevaForm2);
+        aux=cnfInterno2(nuevaForm2,arbol);
+        arbol.setFirst(aux.getPrimero().unir(aux.getACtual()));
+        aux.setAct(nodo);
+        aux.setPrim(arbol);
+        return aux;
+    }else if(nodo->GetChar()==QString(SimbALWAYS)&&nodo->GetLeftChild()->GetChar()==QString(SimbOR)&&
+             (nodo->GetLeftChild()->GetLeftChild()->GetChar()==QString(SimbALWAYS)||nodo->GetLeftChild()->GetRightChild()->GetChar()==QString(SimbALWAYS))){
+        if(nodo->GetLeftChild()->GetLeftChild()->GetChar()==QString(SimbALWAYS)){
+            BinaryTreeNode * izq = nodo->GetLeftChild()->GetLeftChild()->GetLeftChild();
+            QString nuevaVar1 = gen.generarVariable();
+            nodo->GetLeftChild()->GetLeftChild()->SetLeftChild(new BinaryTreeNode(nuevaVar1));
+            BinaryTreeNode * nuevaForm1 = crearSubArbol(izq, nuevaVar1);
+            nuevaForm1=nnfInterno(nuevaForm1);
+            nuevaForm1=dtnfInterno(nuevaForm1);
+            aux=cnfInterno2(nuevaForm1->GetLeftChild(),arbol);
+            nuevaForm1->SetLeftChild(aux.getACtual());
+            arbol.setFirst(aux.getPrimero().unir(nuevaForm1));
+            aux.setAct(nodo);
+            aux.setPrim(arbol);
+            return aux;
+        }else{
+            BinaryTreeNode * izq = nodo->GetLeftChild()->GetRightChild()->GetLeftChild();
+            QString nuevaVar1 = gen.generarVariable();
+            nodo->GetLeftChild()->GetRightChild()->SetLeftChild(new BinaryTreeNode(nuevaVar1));
+            BinaryTreeNode * nuevaForm1 = crearSubArbol(izq, nuevaVar1);
+            nuevaForm1=nnfInterno(nuevaForm1);
+            nuevaForm1=dtnfInterno(nuevaForm1);
+            aux=cnfInterno2(nuevaForm1->GetLeftChild(),arbol);
+            nuevaForm1->SetLeftChild(aux.getACtual());
+            arbol.setFirst(aux.getPrimero().unir(nuevaForm1));
+            aux.setAct(nodo);
+            aux.setPrim(arbol);
+            return aux;
+        }
+    }else if(nodo->GetChar()==QString(SimbEVENTUALLY) || nodo->GetChar()==QString(SimbALWAYS)){
+        BinaryTreeNode * izq = nodo->GetLeftChild();
+        QString nuevaVar1 = gen.generarVariable();
+        nodo->SetLeftChild(new BinaryTreeNode(nuevaVar1));
+        BinaryTreeNode * nuevaForm1 = crearSubArbol(izq, nuevaVar1);
+        nuevaForm1=nnfInterno(nuevaForm1);
+        nuevaForm1=dtnfInterno(nuevaForm1);
+        aux=cnfInterno2(nuevaForm1->GetLeftChild(),arbol);
+        nuevaForm1->SetLeftChild(aux.getACtual());
+        arbol.setFirst(aux.getPrimero().unir(nuevaForm1));
+        aux.setAct(nodo);
+        aux.setPrim(arbol);
+        return aux;
     }else{
         switch (nodo->nHijos()) {
         case 0:
-            return nodo;
+            aux.setAct(nodo);
+            aux.setPrim(arbol);
+            return aux;
             break;
         case 1:
-            nodo->SetLeftChild(cnfInterno(nodo->GetLeftChild()));
-            return nodo;
+            aux=cnfInterno(nodo->GetLeftChild(), arbol);
+            aux.setAct(nodo);
+            aux.setPrim(aux.getPrimero());
+            return aux;
             break;
         case 2:
-            nodo->SetLeftChild(cnfInterno(nodo->GetLeftChild()));
-            nodo->SetRightChild(cnfInterno(nodo->GetRightChild()));
-            return nodo;
+            aux=cnfInterno(nodo->GetLeftChild(), arbol);
+            nodo->SetLeftChild(aux.getACtual());
+            arbol=aux.getPrimero();
+            aux=(cnfInterno(nodo->GetRightChild(), arbol));
+            nodo->SetRightChild(aux.getACtual());
+            arbol=aux.getPrimero();
+            aux.setAct(nodo);
+            aux.setPrim(arbol);
+            return aux;
             break;
         default:
-            return nodo;
+            aux.setAct(nodo);
+            aux.setPrim(arbol);
+            return aux;
             break;
         }
-        return nodo;
+        //return arbol.getFirst();
     }
 }
 
@@ -624,4 +639,15 @@ bool almacenador::isDistributed(BinaryTreeNode * actual){
         return false;
     else
         return true;
+}
+
+BinaryTreeNode * almacenador::crearSubArbol(BinaryTreeNode * actual, QString var){
+    BinaryTreeNode * nuevoPadre = new BinaryTreeNode(SimbALWAYS);
+    BinaryTreeNode * o = new BinaryTreeNode(SimbOR);
+    BinaryTreeNode * no = new BinaryTreeNode(SimbNOT);
+    no->SetLeftChild(new BinaryTreeNode(var));
+    o->SetLeftChild(no);
+    o->SetRightChild(actual);
+    nuevoPadre->SetLeftChild(o);
+    return nuevoPadre;
 }

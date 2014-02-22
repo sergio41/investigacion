@@ -5,6 +5,7 @@
 #include "binarytreenode.h"
 #include "binarytree.h"
 #include "generadorvariables.h"
+#include "estructuraauxiliarcnf.h"
 
 class almacenador
 {
@@ -21,8 +22,9 @@ private:
     QString parentesisInnecesarios(QString formula);
     BinaryTreeNode *nnfInterno(BinaryTreeNode *nodo);
     BinaryTreeNode *dtnfInterno(BinaryTreeNode *nodo);
-    BinaryTreeNode *cnfInterno(BinaryTreeNode *nodo);
-    BinaryTreeNode *cnfInterno2(BinaryTreeNode *nodo);
+    EstructuraAuxiliarCNF cnfInterno(BinaryTreeNode *nodo, LBinaryTree arbol);
+    EstructuraAuxiliarCNF cnfInterno2(BinaryTreeNode *nodo, LBinaryTree arbol);
+    BinaryTreeNode *crearSubArbol(BinaryTreeNode * actual, QString var);
     bool comparanodos(BinaryTreeNode * nodo1, BinaryTreeNode * nodo2);
     bool isDistributed(BinaryTreeNode * actual);
 };
