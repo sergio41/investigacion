@@ -77,6 +77,9 @@
     </item>
     <item row="1" column="0">
      <widget class="QPlainTextEdit" name="plainTextEdit">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
       <property name="plainText">
        <string>Atom := a | b | c | ... | z
 
