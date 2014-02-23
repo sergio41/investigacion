@@ -251,3 +251,12 @@ void MainWindow::on_actionSave_As_triggered()
         }
     }
 }
+void MainWindow::resizeEvent(QResizeEvent* event)
+{
+   QMainWindow::resizeEvent(event);
+   QFont font = ui->plainTextEdit->font();
+   int i = ui->plainTextEdit->height();
+   i = i *0.04;
+   font.setPixelSize(i);
+   ui->plainTextEdit->setFont(font);
+}

@@ -93,7 +93,7 @@ LBinaryTree almacenador::nnf(LBinaryTree arbol){
 }
 
 BinaryTreeNode * almacenador::nnfInterno(BinaryTreeNode *nodo){
-    //cout<<nodo->GetChar().toLocal8Bit().data()<<endl;
+    cout<<nodo->GetChar().toLocal8Bit().data()<<endl;
     if(nodo->GetChar()==QString(SimbNOT)){
         nodo->SetLeftChild(nnfInterno(nodo->GetLeftChild()));
         cout<<"Entro"<<endl;
@@ -201,7 +201,7 @@ LBinaryTree almacenador::dtnf(LBinaryTree arbol){
 }
 
 BinaryTreeNode * almacenador::dtnfInterno(BinaryTreeNode *nodo){
-    //cout<<nodo->GetChar().toLocal8Bit().data()<<endl;
+    cout<<nodo->GetChar().toLocal8Bit().data()<<endl;
     if(nodo->GetChar()==QString(SimbNEXT)){
         nodo->SetLeftChild(dtnfInterno(nodo->GetLeftChild()));
         if(nodo->GetLeftChild()->GetChar()==QString(SimbAND)||nodo->GetLeftChild()->GetChar()==QString(SimbOR)){

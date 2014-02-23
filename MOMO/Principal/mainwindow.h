@@ -39,6 +39,8 @@ private slots:
 
     void on_actionSave_As_triggered();
 
+    void resizeEvent(QResizeEvent* event);
+
 private:
     Ui::MainWindow *ui;
 };
