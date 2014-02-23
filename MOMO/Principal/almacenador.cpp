@@ -93,8 +93,9 @@ LBinaryTree almacenador::nnf(LBinaryTree arbol){
 }
 
 BinaryTreeNode * almacenador::nnfInterno(BinaryTreeNode *nodo){
-    cout<<nodo->GetChar().toLocal8Bit().data()<<endl;
+    //cout<<nodo->GetChar().toLocal8Bit().data()<<endl;
     if(nodo->GetChar()==QString(SimbNOT)){
+        nodo->SetLeftChild(nnfInterno(nodo->GetLeftChild()));
         cout<<"Entro"<<endl;
         if(nodo->GetLeftChild()->GetChar()==QString(SimbNOT)){
             return nnfInterno(nodo->GetLeftChild()->GetLeftChild());
@@ -200,8 +201,9 @@ LBinaryTree almacenador::dtnf(LBinaryTree arbol){
 }
 
 BinaryTreeNode * almacenador::dtnfInterno(BinaryTreeNode *nodo){
-    cout<<nodo->GetChar().toLocal8Bit().data()<<endl;
+    //cout<<nodo->GetChar().toLocal8Bit().data()<<endl;
     if(nodo->GetChar()==QString(SimbNEXT)){
+        nodo->SetLeftChild(dtnfInterno(nodo->GetLeftChild()));
         if(nodo->GetLeftChild()->GetChar()==QString(SimbAND)||nodo->GetLeftChild()->GetChar()==QString(SimbOR)){
             BinaryTreeNode * derecha= nodo->GetLeftChild()->GetRightChild();
             BinaryTreeNode * izquierda= nodo->GetLeftChild()->GetLeftChild();
@@ -218,6 +220,7 @@ BinaryTreeNode * almacenador::dtnfInterno(BinaryTreeNode *nodo){
             return nodo;
         }
     }else if(nodo->GetChar()==QString(SimbEVENTUALLY)){
+        nodo->SetLeftChild(dtnfInterno(nodo->GetLeftChild()));
         if(nodo->GetLeftChild()->GetChar()==QString(SimbOR)){
             BinaryTreeNode * derecha= nodo->GetLeftChild()->GetRightChild();
             BinaryTreeNode * izquierda= nodo->GetLeftChild()->GetLeftChild();
@@ -230,12 +233,13 @@ BinaryTreeNode * almacenador::dtnfInterno(BinaryTreeNode *nodo){
             aux->SetRightChild(dtnfInterno(derechaNuev));
             return aux;
         }else if(nodo->GetLeftChild()->GetChar()==QString(SimbEVENTUALLY)){
-            return nnfInterno(nodo->GetLeftChild());
+            return dtnfInterno(nodo->GetLeftChild());
         }else{
             nodo->SetLeftChild(dtnfInterno(nodo->GetLeftChild()));
             return nodo;
         }
     }else if(nodo->GetChar()==QString(SimbALWAYS)){
+        nodo->SetLeftChild(dtnfInterno(nodo->GetLeftChild()));
         if(nodo->GetLeftChild()->GetChar()==QString(SimbAND)){
             BinaryTreeNode * derecha= nodo->GetLeftChild()->GetRightChild();
             BinaryTreeNode * izquierda= nodo->GetLeftChild()->GetLeftChild();
@@ -254,6 +258,8 @@ BinaryTreeNode * almacenador::dtnfInterno(BinaryTreeNode *nodo){
             return nodo;
         }
     }else if(nodo->GetChar()==QString(SimbOR)){
+        nodo->SetLeftChild(dtnfInterno(nodo->GetLeftChild()));
+        nodo->SetRightChild(dtnfInterno(nodo->GetRightChild()));
         if(nodo->GetLeftChild()->GetChar()==QString(SimbAND)){
             BinaryTreeNode * izquierda2= nodo->GetLeftChild()->GetRightChild();
             BinaryTreeNode * izquierda1= nodo->GetLeftChild()->GetLeftChild();
@@ -288,6 +294,8 @@ BinaryTreeNode * almacenador::dtnfInterno(BinaryTreeNode *nodo){
             return nodo;
         }
     }else if(nodo->GetChar()==QString(SimbUNTIL)){
+        nodo->SetLeftChild(dtnfInterno(nodo->GetLeftChild()));
+        nodo->SetRightChild(dtnfInterno(nodo->GetRightChild()));
         if(nodo->GetRightChild()->GetChar()==QString(SimbOR)){
             BinaryTreeNode * izquierda= nodo->GetLeftChild();
             BinaryTreeNode * derecha1= nodo->GetRightChild()->GetLeftChild();
@@ -334,6 +342,8 @@ BinaryTreeNode * almacenador::dtnfInterno(BinaryTreeNode *nodo){
             return nodo;
         }
     }else if(nodo->GetChar()==QString(SimbRELEASE)){
+        nodo->SetLeftChild(dtnfInterno(nodo->GetLeftChild()));
+        nodo->SetRightChild(dtnfInterno(nodo->GetRightChild()));
         if(nodo->GetRightChild()->GetChar()==QString(SimbAND)){
             BinaryTreeNode * izquierda= nodo->GetLeftChild();
             BinaryTreeNode * derecha1= nodo->GetRightChild()->GetLeftChild();
@@ -461,7 +471,7 @@ EstructuraAuxiliarCNF almacenador::cnfInterno2(BinaryTreeNode *nodo, LBinaryTree
             aux.setPrim(arbol);
             return aux;
         }
-    }else if(nodo->GetChar()==QString(SimbEVENTUALLY) || nodo->GetChar()==QString(SimbALWAYS)){
+    }else if(nodo->GetChar()==QString(SimbEVENTUALLY) || nodo->GetChar()==QString(SimbALWAYS)&& isDistributed(nodo->GetLeftChild())){
         BinaryTreeNode * izq = nodo->GetLeftChild();
         QString nuevaVar1 = gen.generarVariable();
         nodo->SetLeftChild(new BinaryTreeNode(nuevaVar1));
@@ -632,7 +642,7 @@ bool almacenador::isDistributed(BinaryTreeNode * actual){
             actual=actual->GetLeftChild();
         }
     }
-    if(/*actual->GetChar()==QString(SimbAND)||*/actual->GetChar()==QString(SimbOR)||
+    if(actual->GetChar()==QString(SimbAND)||actual->GetChar()==QString(SimbOR)||
             actual->GetChar()==QString(SimbINPDER)||actual->GetChar()==QString(SimbSSS))
         return false;
     else if((actual->GetChar()==QString(SimbAND)||actual->GetChar()==QString(SimbOR))&& comparanodos(actual->GetLeftChild(),actual->GetRightChild()))

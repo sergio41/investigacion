@@ -51,7 +51,7 @@ void MainWindow::on_pBAnadir_clicked()
         model->appendRow(Items);
         LBinaryTree arbol = almac.almacenar(ui->lineEdit->text());
         if(arbol.getFirst()->GetChar()!=""){
-          anadirADepurador(arbol.getFirst()->GetChar());
+          //anadirADepurador(arbol.getFirst()->GetChar());
           retorno = arbol.getFirst()->GetChar();
           if(arbol.getFirst()->GetLeftChild()!=NULL){
               if(arbol.getFirst()->GetChar()==QString(SimbNOT)|| arbol.getFirst()->GetChar()==QString(SimbEVENTUALLY)
@@ -68,7 +68,7 @@ void MainWindow::on_pBAnadir_clicked()
         anadirADepurador("Transformacion a NNF");
         LBinaryTree arbol2= almac.nnf(arbol);
         if(arbol2.getFirst()->GetChar()!=""){
-          anadirADepurador(arbol2.getFirst()->GetChar());
+          //anadirADepurador(arbol2.getFirst()->GetChar());
           retorno = arbol2.getFirst()->GetChar();
           if(arbol2.getFirst()->GetLeftChild()!=NULL){
               if(arbol2.getFirst()->GetChar()==QString(SimbNOT)|| arbol2.getFirst()->GetChar()==QString(SimbEVENTUALLY)
@@ -85,7 +85,7 @@ void MainWindow::on_pBAnadir_clicked()
         anadirADepurador("Transformación DTNF");
         LBinaryTree arbol3= almac.dtnf(arbol2);
         if(arbol3.getFirst()->GetChar()!=""){
-          anadirADepurador(arbol3.getFirst()->GetChar());
+          //anadirADepurador(arbol3.getFirst()->GetChar());
           retorno = arbol3.getFirst()->GetChar();
           if(arbol3.getFirst()->GetLeftChild()!=NULL){
               if(arbol3.getFirst()->GetChar()==QString(SimbNOT)|| arbol3.getFirst()->GetChar()==QString(SimbEVENTUALLY)
@@ -102,7 +102,7 @@ void MainWindow::on_pBAnadir_clicked()
         anadirADepurador("Transformación CNF");
         LBinaryTree arbolFinal = almac.cnf(arbol3);
         if(arbolFinal.getFirst()->GetChar()!=""){
-            anadirADepurador(arbolFinal.getFirst()->GetChar());
+            //anadirADepurador(arbolFinal.getFirst()->GetChar());
             retorno = arbolFinal.getFirst()->GetChar();
             if(arbolFinal.getFirst()->GetLeftChild()!=NULL){
                 retorno = imprimirNodo(arbolFinal.getFirst()->GetLeftChild()) + retorno;
@@ -141,7 +141,7 @@ void MainWindow::on_pBDeleteSET_clicked()
 }
 
 QString MainWindow::imprimirNodo(BinaryTreeNode *actual){
-    anadirADepurador(actual->GetChar());
+    //anadirADepurador(actual->GetChar());
     QString retorno = actual->GetChar();
     if(actual->GetLeftChild()!=NULL){
         if(actual->GetChar()==QString(SimbNOT)|| actual->GetChar()==QString(SimbEVENTUALLY)
