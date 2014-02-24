@@ -11,6 +11,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QXmlStreamWriter>
+#include <QDesktopWidget>
 
 QStandardItemModel *model;
 almacenador almac;
@@ -266,9 +267,6 @@ void MainWindow::resizeEvent(QResizeEvent* event)
    QFont font3 = ui->label->font();
    int i2 = ui->lineEdit->width();
    i2 = i2 *0.06;
-   int i3 = i2*0.9;
    font2.setPixelSize(i2);
-   font3.setPixelSize(i3);
-   ui->label->setFont(font3);
    ui->lineEdit->setFont(font2);
 }
