@@ -261,4 +261,14 @@ void MainWindow::resizeEvent(QResizeEvent* event)
    i = i *0.04;
    font.setPixelSize(i);
    ui->plainTextEdit->setFont(font);
+
+   QFont font2 = ui->lineEdit->font();
+   QFont font3 = ui->label->font();
+   int i2 = ui->lineEdit->width();
+   i2 = i2 *0.06;
+   int i3 = i2*0.9;
+   font2.setPixelSize(i2);
+   font3.setPixelSize(i3);
+   ui->label->setFont(font3);
+   ui->lineEdit->setFont(font2);
 }
