@@ -80,7 +80,7 @@ bool parser::comprobarParserInterno(QString formula){
             parentesisCerrar = true;
             unarios = false;
             binarios = true;
-            letra = false;
+            letra = true;
             fin = true;
             return (comprobarParserInterno(formula.right(formula.length()-1)));
         } else return false;

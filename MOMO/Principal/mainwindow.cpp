@@ -46,10 +46,12 @@ void MainWindow::on_pBAnadir_clicked()
 {
     anadirADepurador("Arbol Sintactico");
     QString retorno;
-    if (par.comprobarParser(ui->lineEdit->text())) {
-        QStandardItem* Items = new QStandardItem(ui->lineEdit->text());
+    QString aux = ui->lineEdit->text();
+    aux.replace(" ","");
+    if (par.comprobarParser(aux)) {
+        QStandardItem* Items = new QStandardItem(aux);
         model->appendRow(Items);
-        LBinaryTree arbol = almac.almacenar(ui->lineEdit->text());
+        LBinaryTree arbol = almac.almacenar(aux);
         if(arbol.getFirst()->GetChar()!=""){
           //anadirADepurador(arbol.getFirst()->GetChar());
           retorno = arbol.getFirst()->GetChar();
