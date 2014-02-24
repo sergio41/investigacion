@@ -16,6 +16,7 @@
 QStandardItemModel *model;
 almacenador almac;
 parser par;
+int resizeNum =0;
 
 #include <iostream>
 using namespace std;
@@ -256,17 +257,23 @@ void MainWindow::on_actionSave_As_triggered()
 }
 void MainWindow::resizeEvent(QResizeEvent* event)
 {
-   QMainWindow::resizeEvent(event);
-   QFont font = ui->plainTextEdit->font();
-   int i = ui->plainTextEdit->height();
-   i = i *0.04;
-   font.setPixelSize(i);
-   ui->plainTextEdit->setFont(font);
+   resizeNum++;
+   if(resizeNum>2){
+       QMainWindow::resizeEvent(event);
+       QFont font = ui->plainTextEdit->font();
+       int i = ui->plainTextEdit->height();
+       i = i *0.04;
+       font.setPixelSize(i);
+       ui->plainTextEdit->setFont(font);
 
-   QFont font2 = ui->lineEdit->font();
-   QFont font3 = ui->label->font();
-   int i2 = ui->lineEdit->width();
-   i2 = i2 *0.06;
-   font2.setPixelSize(i2);
-   ui->lineEdit->setFont(font2);
+       QFont font2 = ui->lineEdit->font();
+       QFont font3 = ui->label->font();
+       int i2 = ui->lineEdit->width();
+       i2 = i2 *0.06;
+       font2.setPixelSize(i2);
+       font3.setPixelSize(i2);
+       ui->lineEdit->setFont(font2);
+       ui->label->setFont(font3);
+       ui->listViewSet->setFont(font2);
+   }
 }
