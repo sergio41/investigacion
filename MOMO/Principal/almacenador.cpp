@@ -422,7 +422,8 @@ EstructuraAuxiliarCNF almacenador::cnfInterno(BinaryTreeNode *nodo, LBinaryTree 
 
 EstructuraAuxiliarCNF almacenador::cnfInterno2(BinaryTreeNode *nodo, LBinaryTree arbol){
     EstructuraAuxiliarCNF aux = EstructuraAuxiliarCNF();
-    if(nodo->GetChar()==QString(SimbUNTIL) || nodo->GetChar()==QString(SimbRELEASE)){
+    if((nodo->GetChar()==QString(SimbUNTIL) || nodo->GetChar()==QString(SimbRELEASE))&&
+            !(literal(nodo->GetLeftChild())||literal(nodo->GetRightChild()))){
         BinaryTreeNode * izq = nodo->GetLeftChild();
         BinaryTreeNode * der = nodo->GetRightChild();
         QString nuevaVar1 = gen.generarVariable();
@@ -471,7 +472,7 @@ EstructuraAuxiliarCNF almacenador::cnfInterno2(BinaryTreeNode *nodo, LBinaryTree
             aux.setPrim(arbol);
             return aux;
         }
-    }else if(nodo->GetChar()==QString(SimbEVENTUALLY) || nodo->GetChar()==QString(SimbALWAYS)&& isDistributed(nodo->GetLeftChild())){
+    }else if((nodo->GetChar()==QString(SimbEVENTUALLY) || nodo->GetChar()==QString(SimbALWAYS))&& isDistributed(nodo) && !literal(nodo->GetLeftChild())){
         BinaryTreeNode * izq = nodo->GetLeftChild();
         QString nuevaVar1 = gen.generarVariable();
         nodo->SetLeftChild(new BinaryTreeNode(nuevaVar1));
@@ -514,7 +515,6 @@ EstructuraAuxiliarCNF almacenador::cnfInterno2(BinaryTreeNode *nodo, LBinaryTree
             return aux;
             break;
         }
-        //return arbol.getFirst();
     }
 }
 
@@ -642,13 +642,71 @@ bool almacenador::isDistributed(BinaryTreeNode * actual){
             actual=actual->GetLeftChild();
         }
     }
-    if(actual->GetChar()==QString(SimbAND)||actual->GetChar()==QString(SimbOR)||
-            actual->GetChar()==QString(SimbINPDER)||actual->GetChar()==QString(SimbSSS))
-        return false;
-    else if((actual->GetChar()==QString(SimbAND)||actual->GetChar()==QString(SimbOR))&& comparanodos(actual->GetLeftChild(),actual->GetRightChild()))
-        return false;
-    else
+    if(literal(actual)){
         return true;
+    }else if(actual->GetChar()==QString(SimbRELEASE)){
+        if((isBeta(actual->GetRightChild()))&&(isAlfa(actual->GetLeftChild())))
+            return true;
+        else
+            return false;
+    }else if(actual->GetChar()==QString(SimbUNTIL)){
+        if((isBeta(actual->GetLeftChild()))&&(isAlfa(actual->GetRightChild())))
+            return true;
+        else
+            return false;
+    }else if(actual->GetChar()==QString(SimbALWAYS)){
+        if(isBeta(actual->GetLeftChild()))
+            return true;
+        else
+            return false;
+    }else if(actual->GetChar()==QString(SimbEVENTUALLY)){
+        if(isAlfa(actual->GetLeftChild()))
+            return true;
+        else
+            return false;
+    }
+    return false;
+}
+
+bool almacenador::literal(BinaryTreeNode * actual){
+    if(actual->GetChar()==QString(SimbNOT)&&!(QString(SimbALL).contains(actual->GetLeftChild()->GetChar())))
+        return true;
+    else if(!(QString(SimbALL).contains(actual->GetChar())))
+        return true;
+    else if(actual->GetChar()==QString(SimbOR))
+        return (literal(actual->GetLeftChild())&&literal(actual->GetRightChild()));
+    return false;
+}
+
+bool almacenador::isBeta(BinaryTreeNode * actual){
+    while(actual->GetChar()==QString(SimbOR)){
+        if(isDistributed(actual->GetLeftChild()))
+            actual = actual->GetRightChild();
+        else
+            return false;
+    }
+    if(isDistributed(actual)){
+        return true;
+    }
+    return false;
+}
+
+bool almacenador::isAlfa(BinaryTreeNode * actual){
+    if(isDistributed(actual))
+        return true;
+    else if(actual->GetChar()==QString(SimbAND)){
+            if(isBeta(actual->GetLeftChild())){
+                if(isBeta(actual->GetRightChild()))
+                    return true;
+                else
+                    return isAlfa(actual->GetRightChild());
+            }else if(isBeta(actual->GetRightChild()))
+                return isAlfa(actual->GetLeftChild());
+            else
+                return (isAlfa(actual->GetLeftChild())&&(isAlfa(actual->GetRightChild())));
+
+    }
+    return false;
 }
 
 BinaryTreeNode * almacenador::crearSubArbol(BinaryTreeNode * actual, QString var){

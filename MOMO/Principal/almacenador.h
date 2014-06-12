@@ -27,6 +27,9 @@ private:
     BinaryTreeNode *crearSubArbol(BinaryTreeNode * actual, QString var);
     bool comparanodos(BinaryTreeNode * nodo1, BinaryTreeNode * nodo2);
     bool isDistributed(BinaryTreeNode * actual);
+    bool literal(BinaryTreeNode * actual);
+    bool isBeta(BinaryTreeNode * actual);
+    bool isAlfa(BinaryTreeNode * actual);
 };
 
 #endif // ALMACENADOR_H
